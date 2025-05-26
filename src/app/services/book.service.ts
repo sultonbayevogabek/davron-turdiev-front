@@ -17,7 +17,7 @@ export class BookService {
   }
 
   setStatus(seatId: string, status: 'free' | 'on-hold') {
-    return this.http.post(`${ this.host }/seats`, {
+    return this.http.post(`${ this.host }/set-seats`, {
       seatId,
       status,
       userId: this.authService.userId
@@ -25,9 +25,15 @@ export class BookService {
   }
 
   reserveSeat(seatId: string) {
-    return this.http.post(`${ this.host }/seats`, {
+    return this.http.post(`${ this.host }/reserve-seats`, {
       seatId,
       userId: this.authService.userId
     });
+  }
+
+  getTicket(seatId: string) {
+    return this.http.post(`${ this.host }/seats`, {
+      seatId,
+    })
   }
 }

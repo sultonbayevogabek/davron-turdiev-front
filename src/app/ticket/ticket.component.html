@@ -1,0 +1,121 @@
+<div class="flex flex-col items-center py-10">
+  <!-- Ticket Display -->
+  <div
+    #ticketToDownload
+    style="width: 400px; background-color: #ffffff; border-radius: 12px; overflow: hidden; border: 2px solid #2563eb; box-shadow: 0 10px 15px rgba(0,0,0,0.1);">
+    <!-- Header -->
+    <div style="background-color: #2563eb; color: white; padding: 16px; text-align: center;">
+      <h2 style="font-size: 20px; font-weight: bold; margin: 0;">SEMINAR BILETI</h2>
+    </div>
+
+    <!-- Body -->
+    <div style="padding: 24px;">
+      <!-- Attendee -->
+      <div style="text-align: center; margin-bottom: 20px;">
+        <p style="font-size: 14px; color: #6b7280; margin: 0 0 4px 0;">Bilet egasi</p>
+        <p style="font-size: 24px; font-weight: bold; color: #1d4ed8; margin: 0;">
+          {{ ticketInfo.attendeeName }}
+        </p>
+      </div>
+
+      <!-- Seminar name -->
+      <h3 style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 20px 0;">
+        {{ ticketInfo.seminarName }}
+      </h3>
+
+      <!-- Speaker -->
+      <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 20px;">
+        <img [src]="ticketInfo.speakerImage" style="width: 112px; height: 112px; border-radius: 50%; object-fit: cover; border: 2px solid #3b82f6;">
+        <p style="margin: 12px 0 4px 0; font-weight: 600;">
+          {{ ticketInfo.speakerName }}
+        </p>
+        <p style="font-size: 14px; color: #4b5563; margin: 0;">
+          {{ ticketInfo.speakerRole }}
+        </p>
+      </div>
+
+      <!-- Details -->
+      <div style="border-top: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; padding: 16px 0;">
+        <!-- Date / Time / Seat -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; text-align: center;">
+          <!-- Date -->
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" style="height: 24px; width: 24px; margin: 0 auto 4px auto; color: #2563eb;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <p style="font-size: 14px; font-weight: 500; margin: 0;">
+              {{ ticketInfo.date }}
+            </p>
+          </div>
+
+          <!-- Time -->
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" style="height: 24px; width: 24px; margin: 0 auto 4px auto; color: #2563eb;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <p style="font-size: 14px; font-weight: 500; margin: 0;">
+              {{ ticketInfo.time }}
+            </p>
+          </div>
+
+          <!-- Seat -->
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" style="height: 24px; width: 24px; margin: 0 auto 4px auto; color: #2563eb;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            <p style="font-size: 14px; font-weight: 500; color: #1d4ed8; margin: 0;">
+              {{ ticketInfo.seatNumber }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Location -->
+        <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px;">
+          <svg xmlns="http://www.w3.org/2000/svg" style="height: 24px; width: 24px; color: #2563eb;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          <p style="font-weight: 500; margin: 0;">
+            {{ ticketInfo.location }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Download Button -->
+  <button
+    (click)="downloadTicket()"
+    [disabled]="isGenerating"
+    style="margin-top: 32px; display: inline-flex; align-items: center; gap: 8px; background-color: #2563eb; color: white; font-weight: bold; padding: 8px 24px; border-radius: 9999px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); transition: background-color 0.3s;"
+    onmouseover="this.style.backgroundColor='#1d4ed8'"
+    onmouseout="this.style.backgroundColor='#2563eb'"
+  >
+    <svg
+      *ngIf="!isGenerating"
+      xmlns="http://www.w3.org/2000/svg"
+      style="height: 20px; width: 20px;"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+      />
+    </svg>
+    <svg
+      *ngIf="isGenerating"
+      style="animation: spin 1s linear infinite; height: 20px; width: 20px;"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle style="opacity: 0.25;" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path style="opacity: 0.75;" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    </svg>
+    {{ isGenerating ? 'Yuklanmoqda...' : 'Biletni yuklab olish' }}
+  </button>
+</div>
