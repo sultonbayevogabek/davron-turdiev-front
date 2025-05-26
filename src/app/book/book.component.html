@@ -1,0 +1,41 @@
+<div class="grid place-content-center h-screen bg-slate-50">
+  <div class="flex items-center gap-10">
+    <!-- Left side of the room -->
+    <div class="flex items-end flex-col gap-3 rotate-[10deg]">
+      <ng-container *ngTemplateOutlet="seatSection; context: { $implicit: seats.left }"></ng-container>
+    </div>
+
+    <!-- Center of the room -->
+    <div class="flex items-center flex-col gap-3">
+      <ng-container *ngTemplateOutlet="seatSection; context: { $implicit: seats.center }"></ng-container>
+    </div>
+
+    <!-- Right side of the room -->
+    <div class="flex items-start flex-col gap-3 rotate-[-10deg]">
+      <ng-container *ngTemplateOutlet="seatSection; context: { $implicit: seats.right }"></ng-container>
+    </div>
+  </div>
+</div>
+
+<!-- Reusable template for seat sections -->
+<ng-template #seatSection let-sectionSeats>
+  @for (row of sectionSeats; track row) {
+    <div class="flex gap-3">
+      @for (seat of row; track seat) {
+        <button
+          [ngClass]="{
+            'cursor-pointer hover:shadow-lg': seat?.status === 'free',
+            'bg-orange-500': seat?.tariff === 'vip',
+            'bg-blue-500': seat?.tariff === 'premium',
+            'opacity-30 cursor-not-allowed': seat?.status === 'reserved'
+          }"
+          [disabled]="['on-hold', 'reserved'].includes(seat?.status)"
+          class="grid place-content-center w-10 h-10  rounded-lg text-[12px] font-bold text-white"
+          (click)="selectSeat(seat)"
+        >
+          {{ seat?.id }}
+        </button>
+      }
+    </div>
+  }
+</ng-template>
